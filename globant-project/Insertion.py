@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 import argparse
+import avro.schema
 
 class Request():
   def __init__(self,username,password,database,dbtable,csv_filename):
@@ -13,6 +14,7 @@ class Request():
     self.spark = SparkSession.builder.master("local[1]")\
     .appName("Insertion")\
     .config('spark.executors.cores', '4')\
+    .config("spark.speculation","false")\
     .getOrCreate()
 
   def reading(self):
@@ -33,10 +35,18 @@ class Request():
           password='{}'.format(self.password)).mode('append').save()
     print("\x1b[1;32m"+"Insertion has finished succesfully"+"\x1b[1;30m"+"\n")
 
+
+  def backup(self):
+    print("\x1b[1;33m"+"Starting backup of table with all its data...")   
+    self.df_backup = self.spark.read.jdbc(url='jdbc:mysql://localhost/{}'.format(self.database),table='{}.{}'.format(self.database,self.dbtable),properties={"user":"{}".format(self.username),"password":"{}".format(self.password)})
+    self.df_backup.write.format("avro").save("AVRO-backups/{}.avro".format(self.dbtable))
+    print("\x1b[1;32m"+"Backup has finished succesfully"+"\x1b[1;30m"+"\n")
+  
   def execute(self):
     self.set_up()
     self.reading()
     self.writing()
+    self.backup()
 
 
 def main():
