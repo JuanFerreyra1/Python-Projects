@@ -28,11 +28,6 @@ class Challenge_two():
       print("\n")
       print("NUMBER OF EMPLOYEES HIRED FOR EACH JOB AND DEPARTMENT IN 2021 DIVIDED BY QUARTER:")
 
-      self.hired_employees = self.spark.read.jdbc(url='jdbc:mysql://localhost/{}'.format(self.database),table='{}.hired_employees'.format(self.database),properties={"user":"{}".format(self.username),"password":"{}".format(self.password)})
-      self.departments = self.spark.read.jdbc(url='jdbc:mysql://localhost/{}'.format(self.database),table='{}.departments'.format(self.database),properties={"user":"{}".format(self.username),"password":"{}".format(self.password)})
-      self.jobs = self.spark.read.jdbc(url='jdbc:mysql://localhost/{}'.format(self.database),table='{}.jobs'.format(self.database),properties={"user":"{}".format(self.username),"password":"{}".format(self.password)})
-      self.parcial_join = self.hired_employees.join(self.departments,self.hired_employees.department_id == self.departments.id,how="left").drop(self.departments.id)
-      self.final_join = self.parcial_join.join(self.jobs,self.parcial_join.job_id == self.jobs.id,how="left").drop(self.jobs.id)
       self.db_connection = mysql.connector.connect(user="root", password="root")
       self.db_cursor = self.db_connection.cursor(buffered=True)
       self.db_cursor.execute("use globant;")
@@ -43,14 +38,14 @@ class Challenge_two():
         pass
       self.db_cursor.execute("""
 
-      create view view_1 as
+      create view view_1 as (
       select x.*,QUARTER(x.datetime) as quarter from
       (
       select he.*,d.department,j.job from hired_employees as he 
       left join departments  as d on he.department_id=d.id 
       left join jobs as j on he.job_id = j.id
       )x
-
+      )
       ;""")
       self.db_cursor.execute("""
         create view view_2 as(
@@ -80,14 +75,59 @@ class Challenge_two():
                          self.final_output.Q4.cast(IntegerType()))
 
       print(self.final_output.show(truncate=False))
-
+      print("\n")
 
   def metrics_second_exercise(self):
-    pass
+    print("\n")
+    print("""LIST OF IDS, NAME AND NUMBER OF EMPLOYEES HIRED OF EACH DEPARTMENT THAT HIRED MORE EMPLOYEES THAN THE MEAN OF EMPLOYEES HIRED IN 2021 FOR ALL THE DEPARTMENTS:""")
+    self.db_connection = mysql.connector.connect(user="root", password="root")
+    self.db_cursor = self.db_connection.cursor(buffered=True)
+    self.db_cursor.execute("use globant;")
+    try:
+      self.db_cursor.execute("drop view employees_per_dept;")
+      self.db_cursor.execute("drop view mean;")
+    except:
+      pass
+    self.db_cursor.execute("""
+        create view employees_per_dept as(
+
+        select x.id_d,x.department,count(1) as employees 
+        from 
+        (
+        select he.id,he.name,he.datetime,d.department,d.id as id_d,j.job from hired_employees as he 
+        left join departments as d on he.department_id=d.id 
+        left join jobs as j on he.job_id = j.id
+        )x 
+        where x.datetime between '2021-01-01' and '2021-12-31'
+        group by x.id_d,x.department
+        ) 
+        ;
+        """)
+    self.db_cursor.execute("""
+        create view mean as(
+        select round(avg(employees),0) as value from employees_per_dept
+        )
+        ;
+        """)
+    self.db_cursor.execute("""
+
+      select * from employees_per_dept where employees >(select value from mean)
+      order by employees DESC;
+
+      """)
+    self.output_two = self.db_cursor.fetchall()
+    self.columns_two = ["id", "department", "hired"]
+    self.final_output_two = self.spark.createDataFrame(self.output_two,self.columns_two)
+    self.final_output_two = self.final_output_two.select(
+                         self.final_output_two.id.cast(IntegerType()),
+                         self.final_output_two.department.cast(StringType()),
+                         self.final_output_two.hired.cast(IntegerType()))
+    print(self.final_output_two.show(truncate=False))    
 
   def execute(self):
     self.set_up()
     self.metrics_first_exercise()
+    self.metrics_second_exercise()
 
 
 
@@ -120,8 +160,8 @@ def main():
     return user,password,dbname,dbtable,csvfilename
 
 
-  challenge_two_object = Challenge_two(authentication()[0],authentication()[1],authentication()[2],authentication()[3],authentication()[4])
-  challenge_two_object.execute()
+  challenge_one_object = Challenge_two(authentication()[0],authentication()[1],authentication()[2],authentication()[3],authentication()[4])
+  challenge_one_object.execute()
 
 
 main()

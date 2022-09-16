@@ -49,10 +49,10 @@ class Challenge_one():
     print("\x1b[1;32m"+"Backup has finished succesfully"+"\x1b[1;30m"+"\n")
 
   def execute(self):
-    #self.set_up()
-    #self.reading()
-    #self.writing()
-    #self.backup()
+    self.set_up()
+    self.reading()
+    self.writing()
+    self.backup()
     pass
 
 
