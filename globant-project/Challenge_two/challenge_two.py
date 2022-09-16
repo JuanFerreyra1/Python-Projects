@@ -9,12 +9,10 @@ from pyspark.sql.types import *
 
 class Challenge_two():
 
-  def __init__(self,username,password,database,dbtable,csv_filename):
+  def __init__(self,username,password,database):
     self.username = username
     self.password = password
     self.database = database
-    self.dbtable  = dbtable
-    self.csvfilename = csv_filename
 
   def set_up(self):
       self.spark = SparkSession.builder.master("local[1]")\
@@ -28,9 +26,9 @@ class Challenge_two():
       print("\n")
       print("NUMBER OF EMPLOYEES HIRED FOR EACH JOB AND DEPARTMENT IN 2021 DIVIDED BY QUARTER:")
 
-      self.db_connection = mysql.connector.connect(user="root", password="root")
+      self.db_connection = mysql.connector.connect(user="{}".format(self.username), password="{}".format(self.password))
       self.db_cursor = self.db_connection.cursor(buffered=True)
-      self.db_cursor.execute("use globant;")
+      self.db_cursor.execute("use {};".format(self.database))
       try:
         self.db_cursor.execute("drop view view_1;")
         self.db_cursor.execute("drop view view_2;")
@@ -138,8 +136,7 @@ def main():
     parser.add_argument("--username", help='username')
     parser.add_argument("--password", help='password')
     parser.add_argument("--dbname", help='mysql dbname')
-    parser.add_argument("--dbtable", help='mysql dbs table')
-    parser.add_argument("--csvfilename", help='csv file to be inserted')
+
      
     args = parser.parse_args()
     if not args.username:
@@ -148,20 +145,16 @@ def main():
         raise Exception("\x1b[1;31m"+"Missing  parameter: --password")
     if not args.dbname:
         raise Exception("\x1b[1;31m"+"Missing  parameter: --dbname")
-    if not args.dbtable:
-        raise Exception("\x1b[1;31m"+"Missing  parameter --dbtable")
-    if not args.csvfilename:
-        raise Exception("\x1b[1;31m"+"Missing  parameter --csvfilename")     
+
     user = args.username
     password = args.password 
     dbname = args.dbname
-    dbtable = args.dbtable
-    csvfilename = args.csvfilename
-    return user,password,dbname,dbtable,csvfilename
+
+    return user,password,dbname
 
 
-  challenge_one_object = Challenge_two(authentication()[0],authentication()[1],authentication()[2],authentication()[3],authentication()[4])
-  challenge_one_object.execute()
+  challenge_two_object = Challenge_two(authentication()[0],authentication()[1],authentication()[2])
+  challenge_two_object.execute()
 
 
 main()

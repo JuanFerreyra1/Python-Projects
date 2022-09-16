@@ -87,7 +87,7 @@ def main():
 
 
 
-  challenge_one_object = Challenge_two(authentication()[0],authentication()[1],authentication()[2],authentication()[3],authentication()[4])
+  challenge_one_object = Challenge_one(authentication()[0],authentication()[1],authentication()[2],authentication()[3],authentication()[4])
   challenge_one_object.execute()
 
 
