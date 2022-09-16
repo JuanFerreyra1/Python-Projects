@@ -1,8 +1,14 @@
 from pyspark.sql import SparkSession
 import argparse
 import avro.schema
+import mysql.connector
+import pyspark
+from pyspark.sql.types import *
 
-class Request():
+
+
+class Challenge_one():
+
   def __init__(self,username,password,database,dbtable,csv_filename):
     self.username = username
     self.password = password
@@ -37,16 +43,18 @@ class Request():
 
 
   def backup(self):
-    print("\x1b[1;33m"+"Starting backup of table with all its data...")   
+    print("\x1b[1;33m"+"Starting backup of table with all its data...")
     self.df_backup = self.spark.read.jdbc(url='jdbc:mysql://localhost/{}'.format(self.database),table='{}.{}'.format(self.database,self.dbtable),properties={"user":"{}".format(self.username),"password":"{}".format(self.password)})
     self.df_backup.write.format("avro").save("AVRO-backups/{}.avro".format(self.dbtable))
     print("\x1b[1;32m"+"Backup has finished succesfully"+"\x1b[1;30m"+"\n")
-  
+
   def execute(self):
-    self.set_up()
-    self.reading()
-    self.writing()
-    self.backup()
+    #self.set_up()
+    #self.reading()
+    #self.writing()
+    #self.backup()
+    pass
+
 
 
 def main():
@@ -77,8 +85,10 @@ def main():
     csvfilename = args.csvfilename
     return user,password,dbname,dbtable,csvfilename
 
-  request_object = Request(authentication()[0],authentication()[1],authentication()[2],authentication()[3],authentication()[4])
-  request_object.execute()
+
+
+  challenge_one_object = Challenge_two(authentication()[0],authentication()[1],authentication()[2],authentication()[3],authentication()[4])
+  challenge_one_object.execute()
 
 
 main()
