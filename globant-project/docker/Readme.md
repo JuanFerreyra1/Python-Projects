@@ -1,4 +1,4 @@
-This package shows Dockerfile used for developing and deploying image Challenge_two needed to execute second challenge required.
+This package shows Dockerfile used for developing and deploying image Challenge_two needed to execute second challenge required. Also, it contains requirements.txt file copied into the image to include needed packages for the python programme.
 Otherwise, it's important to follow these steps in order to get the expected output:
 
 1) Joining swarm:
