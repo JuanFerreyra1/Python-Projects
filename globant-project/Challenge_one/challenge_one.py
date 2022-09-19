@@ -94,7 +94,3 @@ def main():
 main()
 
 
-
-##########################################
-#associate script with dockerfile
-
