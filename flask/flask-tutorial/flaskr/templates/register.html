@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Register{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="username">Username</label>
+    <input name="username" id="username" >
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" >
+    <input type="submit" value="Register">
+  </form>
+{% endblock %}
+
+
+<!-- 
+los block nombre
+sirven para anular todos los elementos con ese
+nombre que son del elemento padre
+ -->
