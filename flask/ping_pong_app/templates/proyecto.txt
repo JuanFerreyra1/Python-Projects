@@ -1,0 +1,13 @@
+cada player tendra una tabla con:
+
+ej:
+tabla agustin:
+id del partido | ptos (3 o 0 por cada record) | contricante | resultado
+
+ptos | contricante | resultado
+3    | contricante | gano
+
+
+en mysql
+mysql> CREATE USER 'juan'@'host' IDENTIFIED WITH mysql_native_password BY 'juan';
+

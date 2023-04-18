@@ -1,0 +1,187 @@
+ 
+form, body {
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    font-size: 50px;  
+}
+
+ 
+h1 {
+    color: #000000;
+    text-align: center;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: 90px;
+    margin-bottom: 200px;
+}
+
+ 
+input[type="number"] {
+    font-family:"Times New Roman", Times, serif;
+    font-size: 50px;  
+    color: #000000;
+    padding: 10px;  
+    margin-bottom: 30px;
+    width: 45%;
+    margin-left: 40px;
+    border: 5px solid #000000;  
+    border-radius: 5px;  
+    padding: 10px;
+    box-sizing: border-box;
+
+
+
+}
+
+input[name="resultado1"] {
+    margin-bottom: 200px;  
+}
+input[name="resultado2"] {
+    margin-bottom: 200px;  
+}
+
+select[name^="jugador"]{
+    font-family: "Times New Roman", Times, serif;
+    font-size: 50px;  
+    color: #000000;
+    padding: 10px;  
+    margin-bottom: 30px;
+    width: 45%;
+    box-sizing: border-box;
+    border: 5px solid #000000;  
+    border-radius: 5px;  
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.positions-table {
+
+    text-decoration: none;  
+    color: #000000;  
+    font-size: 40px;
+    list-style: none;  
+    display: inline-block;  
+    padding: 10px;  
+    background-color: #007bff;  
+    border: 5px solid #000000;
+    border-radius: 5px;
+    margin-right: 10px;  
+    font-family: "Times New Roman", Times, serif;
+    width: 50%;
+}
+
+.error_message_load_of_results {
+
+
+    margin-top: 30px;
+    font-size: 40px;
+    color: #ff1100;
+
+
+}
+
+.success_message_load_of_results {
+
+
+    margin-top: 30px;
+    font-size: 40px;
+    color: #009847;
+
+
+}
+
+ 
+input[type="submit"] {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+    color: #000000;
+    background-color: #9fa0a2;
+    padding: 10px;
+    cursor: pointer;
+    border: 5px solid #000000;  
+    border-radius: 5px;  
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.back_button {
+
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+    color: #000000;
+    background-color: #9fa0a2;
+    padding: 10px;
+    cursor: pointer;
+    border: 5px solid #000000;  
+    border-radius: 5px;  
+    padding: 10px;
+    box-sizing: border-box;
+    text-decoration: none;
+
+
+
+}
+
+
+.btn.btn-secondary {
+    text-decoration: none;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    padding: 10px;
+    cursor: pointer;
+    border: 5px solid #000000;  
+    border-radius: 5px;  
+    padding: 10px;
+    box-sizing: border-box;
+    margin-left: 90px; 
+  }
+
+.btn.btn-secondary a:active {
+    background-color: #0066cc;  
+}
+
+.options-li a {
+    text-decoration: none;  
+    color: #000000;  
+    font-size: 40px;
+    list-style: none;  
+    display: inline-block;  
+    padding: 10px;  
+    background-color: #007bff;  
+    border: 5px solid #000000;
+    border-radius: 5px;
+    margin-right: 10px;  
+    margin-bottom: 50px;
+    font-family: "Times New Roman", Times, serif;
+}
+
+
+.options-li a:active {
+    background-color: #0066cc;  
+}
+
+
+td {
+    font-size: 30px;
+
+}
+
+th {
+
+    font-size: 30px;
+
+
+}
+
+table{
+    margin: 0 auto;
+    margin-bottom: 60px;
+
+
+}

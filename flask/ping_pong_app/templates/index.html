@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ping Pong's application results</title>
+    <!-- Enlace al archivo CSS -->
+
+    <style>
+        body {
+    background-color: #f0f0f0;
+    background-image: url('https://static.vecteezy.com/system/resources/previews/003/185/069/original/table-tennis-kits-design-isolated-background-free-vector.jpg');
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos para el encabezado h1 */
+h1 {
+    color: #000;
+    text-align: center;
+    font-size: 90px;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    margin-top:1px;
+    margin-bottom: 200px;
+
+}
+
+/* Estilos para el formulario */
+form {
+    width: 300px;
+    margin: 0 20px;
+    padding: 20px; /* Agregar padding para dar espacio entre los bordes del formulario y los elementos internos */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #f8f8f8; /* Agregar un color de fondo */
+    border: 4px solid #282525; /* Agregar un borde de 2px de grosor y color gris */
+    border-radius: 5px; /* Agregar esquinas redondeadas */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); /* Agregar una sombra al formulario */
+    font-weight: bold;
+
+}
+
+/* Estilos para las etiquetas de los campos de entrada */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 55px;
+    font-family: "Times New Roman", Times, serif;
+    
+
+}
+
+/* Estilos para los campos de entrada de texto */
+input[type="text"],
+input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc; /* Agregar un borde de 1px de grosor y color gris */
+    font-size: 60px;
+    border-radius: 3px; /* Agregar esquinas redondeadas */
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+
+
+}
+
+/* Estilos para el botón de submit */
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px; 
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    font-family: "Times New Roman", Times, serif;
+    font-size: 50px;
+    font-weight: bold;
+
+}
+    </style>
+</head>
+<body>
+    <h1>PINGPONETA RESULTS</h1>
+    <form action="/login" method="post">
+        <label for="username">User:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="apassword" required><br><br>
+        <input type="submit" value="Sign in">
+    </form>
+    
+    <p>{{ message }}</p> 
+</body>
+</html>
