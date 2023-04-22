@@ -18,7 +18,6 @@ import openpyxl
 user = os.environ.get('USER_WEB_SCRAPPING_PJ')
 password = os.environ.get('PASSWORD_WEB_SCRAPPING_PJ')
 
-print(user,password)
 
 def first_check():
     if not os.path.isfile('data.xlsx'):
@@ -89,6 +88,7 @@ def fetch_data(required_values,required_browser):
             query2.click()
             details = browser.find_element('xpath','//*[@id="tablaConsultaLista:tablaConsultaForm:j_idt179:dataTable"]/tbody/tr/td[6]/div/a')
             details.click()
+            time.sleep(1)
             date = browser.find_element('xpath', '//*[@id="expediente:action-table"]/tbody/tr[1]/td[3]/span[2]').text
             type = browser.find_element('xpath', '//*[@id="expediente:action-table"]/tbody/tr[1]/td[4]/span[2]').text
             description = browser.find_element('xpath', '//*[@id="expediente:action-table"]/tbody/tr[1]/td[5]/span[2]').text
@@ -106,6 +106,11 @@ def fetch_data(required_values,required_browser):
             
             if any((excel_file['Expediente'] == file) & (excel_file['Año'].astype(str).str[:4] == str(yyear))):
                 condition = (excel_file['Año'] == yyear) & (excel_file['Expediente'] == file)
+                df_with_condition = excel_file[condition]
+                chequeado = df_with_condition["CHEQUEADO"].values[0]
+                CD = df_with_condition["CD"].values[0]
+                df["CHEQUEADO"] = chequeado
+                df["CD"] = CD
                 excel_file.drop(excel_file[condition].index, inplace=True)        
                 excel_file = excel_file.append(df, ignore_index=True)
                 excel_file["Fecha_vencimiento"] = pd.to_datetime(excel_file["Fecha_vencimiento"]).dt.strftime("%Y-%m-%d")
@@ -115,10 +120,8 @@ def fetch_data(required_values,required_browser):
                 excel_file = excel_file.append(df, ignore_index=True)
                 excel_file["Fecha_vencimiento"] = pd.to_datetime(excel_file["Fecha_vencimiento"]).dt.strftime("%Y-%m-%d")
                 excel_file = excel_file.sort_values(by=['Fecha_vencimiento'], ascending=True)
-                excel_file.to_excel('data.xlsx', index=False)        
-
+                excel_file.to_excel('data.xlsx', index=False)
             time.sleep(1)
-
             back = browser.find_element('xpath','//*[@id="expediente:j_idt78"]/div/a')
             back.click()
             time.sleep(1)
@@ -151,6 +154,12 @@ def design_table():
     table = openpyxl.worksheet.table.Table(ref=f"A1:H{len(final_excel)+1}", displayName="Tabla")
     table.tableStyleInfo = medium_3
     worksheet.add_table(table)
+    
+    for row in worksheet.iter_rows(min_row=1, max_row=worksheet.max_row):
+        if row[0].value == "OK" or row[0].value == "ok":
+            for cell in row:
+                cell.font = Font(bold=True)
+
     workbook.save('data.xlsx')
 
 
@@ -169,7 +178,7 @@ def main():
     start_time = time.time()
     first_check()
     values = prepare_input()
-    browser = set_up(user,password)
+    browser = set_up()
     fetch_data(values,browser)
     design_table()
     time_spent(start_time)
@@ -177,6 +186,10 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
 
 
 
